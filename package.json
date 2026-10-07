@@ -1,0 +1,37 @@
+{
+  "name": "yello-music-bot",
+  "version": "0.1.0",
+  "description": "Clean YelloTalk music bot with a local control portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js adapters/web-h5/auth.test.js",
+    "typecheck": "node --check server.js",
+    "portal:dev": "npm --prefix web-portal-2 run dev",
+    "portal:build": "npm --prefix web-portal-2 run build",
+    "portal:typecheck": "npm --prefix web-portal-2 run typecheck"
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "groq-sdk": "^0.37.0",
+    "socket.io-client": "^4.7.4"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "keywords": [
+    "yellotalk",
+    "music-bot"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "bugs": {},
+  "homepage": ""
+}

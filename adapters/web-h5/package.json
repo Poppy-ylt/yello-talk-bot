@@ -1,0 +1,14 @@
+{
+  "name": "gme-web-bot",
+  "version": "1.0.0",
+  "description": "GME Music Bot using Puppeteer + H5 Web SDK",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test auth.test.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^22.0.0"
+  }
+}

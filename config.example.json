@@ -1,0 +1,49 @@
+{
+  "account": {
+    "jwtToken": "",
+    "userUuid": "",
+    "displayName": "",
+    "aliases": [],
+    "persona": ""
+  },
+  "adapter": {
+    "type": "native",
+    "baseUrl": "http://127.0.0.1:9876",
+    "token": ""
+  },
+  "groq": {
+    "apiKey": "",
+    "model": ""
+  },
+  "azureTts": {
+    "subscriptionKey": "",
+    "region": ""
+  },
+  "portalAllowedOrigins": [
+    "http://localhost:5254",
+    "http://127.0.0.1:5254"
+  ],
+  "settings": {
+    "volume": 80,
+    "musicFormat": "m4a",
+    "roomQuality": "standard",
+    "fadeDurationMs": 1500,
+    "autoplay": false,
+    "repeat": false,
+    "loop": false,
+    "maxTrackDurationSeconds": 3600,
+    "musicBlockedKeywords": [],
+    "ttsEnabled": false,
+    "ttsVoice": "",
+    "ttsSpeed": 1,
+    "ttsPitch": 0,
+    "ttsVolume": 80,
+    "chatRepliesEnabled": false,
+    "fortuneRepliesEnabled": false,
+    "aiReplyTtsEnabled": false,
+    "greetingsEnabled": false,
+    "greetingMessage": "",
+    "farewellsEnabled": false,
+    "farewellMessage": ""
+  }
+}

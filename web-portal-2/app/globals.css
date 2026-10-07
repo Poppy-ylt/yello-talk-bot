@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; background: #f5f6f8; color: #1f2937; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .48; }
+.shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 48px; }
+.header, .section-heading, .inline-form, .button-row, .stats, .tabs { display: flex; align-items: center; }
+.header, .section-heading { justify-content: space-between; gap: 16px; }
+h1, h2, p { margin-top: 0; }
+h1 { margin-bottom: 0; font-size: clamp(26px, 4vw, 36px); }
+h2 { margin-bottom: 8px; font-size: 21px; }
+.eyebrow { margin-bottom: 8px; color: #687386; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.status-pill, .badge { border: 1px solid #dce1e8; border-radius: 999px; padding: 8px 12px; color: #586273; background: white; font-size: 13px; }
+.dot { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: #f0a72c; }
+.dot.ready { background: #20a36a; }
+.tabs { gap: 8px; margin: 28px 0 18px; border-bottom: 1px solid #dce1e8; }
+.tab { border: 0; border-bottom: 2px solid transparent; padding: 12px 16px; color: #667085; background: transparent; }
+.tab.active { border-color: #2674d9; color: #175bb2; font-weight: 700; }
+.card { border: 1px solid #e0e5eb; border-radius: 16px; padding: 22px; background: white; box-shadow: 0 8px 28px #1c2b3a0a; }
+.owner-card { margin-bottom: 16px; }
+.owner-card p, .muted { color: #687386; font-size: 14px; line-height: 1.6; }
+.inline-form { gap: 10px; }
+input, textarea, select { width: 100%; border: 1px solid #d5dbe4; border-radius: 9px; padding: 10px 12px; color: #202938; background: white; }
+input:focus, textarea:focus, select:focus { outline: 2px solid #9fc5fa; border-color: #4389e4; }
+button { min-height: 40px; border: 1px solid #d5dbe4; border-radius: 9px; padding: 8px 14px; color: #344054; background: white; }
+button.primary { border-color: #2165c5; color: white; background: #2165c5; }
+.notice { margin: 12px 0; border: 1px solid #c9ddf8; border-radius: 10px; padding: 12px 14px; color: #244a77; background: #edf5ff; }
+.stats { gap: 12px; margin: 22px 0; }
+.stats > div { flex: 1; border: 1px solid #e6eaf0; border-radius: 12px; padding: 15px; }
+.stats span, .stats strong { display: block; }
+.stats span { margin-bottom: 8px; color: #687386; font-size: 13px; }
+.stats strong { font-size: 18px; }
+.button-row { gap: 10px; margin-top: 18px; }
+.room-list { display: grid; gap: 8px; margin-top: 14px; }
+.room-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid #e6eaf0; border-radius: 10px; padding: 10px 12px; }
+.room-row > div { display: grid; gap: 3px; }
+.room-row .muted { margin: 0; font-size: 12px; }
+.empty-chat { display: grid; min-height: 250px; margin: 18px 0; place-content: center; border: 1px dashed #d2d9e2; border-radius: 12px; color: #738095; text-align: center; line-height: 1.8; }
+.chat-transcript { display: grid; align-content: start; gap: 8px; min-height: 250px; max-height: 440px; overflow-y: auto; margin: 18px 0; padding: 10px; border: 1px solid #e6eaf0; border-radius: 12px; }
+.chat-transcript .empty-chat { margin: 0; border: 0; }
+.chat-message { border-radius: 10px; padding: 10px 12px; background: #f5f7fa; overflow-wrap: anywhere; }
+.chat-message.outgoing { background: #edf5ff; }
+.chat-message > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #475467; font-size: 12px; }
+.chat-message time { color: #8892a2; }
+.chat-message p { margin: 5px 0 0; color: #253044; white-space: pre-wrap; }
+.settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.form-card { display: grid; gap: 14px; }
+.form-card > label { display: grid; gap: 7px; color: #475467; font-size: 13px; }
+.form-card .check-row { display: flex; align-items: center; justify-content: space-between; }
+.check-row input { width: 18px; height: 18px; }
+footer { padding: 24px 4px 0; color: #8892a2; font-size: 12px; overflow-wrap: anywhere; }
+code { border-radius: 4px; padding: 2px 5px; background: #eef1f5; }
+@media (max-width: 760px) { .shell { width: min(100% - 20px, 600px); padding-top: 20px; } .header { align-items: flex-start; flex-direction: column; } .settings-grid { grid-template-columns: 1fr; } .card { padding: 17px; } .stats { align-items: stretch; flex-direction: column; } .inline-form { align-items: stretch; flex-direction: column; } .button-row { flex-wrap: wrap; } }
