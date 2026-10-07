@@ -37,9 +37,11 @@ test('Linux native adapter keeps only the music and optional room-quality comman
 });
 
 test('Linux native status reports playback completion without exposing auth identifiers', () => {
-  const statusHandler = linuxSource.match(
-    /else if \(strcmp\(path, "\/status"\) == 0\) \{([\s\S]*?)\n    \}\n    else if \(strcmp\(path, "\/join"\)/
-  )?.[1];
+  const statusStart = linuxSource.indexOf('else if (strcmp(path, "/status") == 0) {');
+  const statusEnd = linuxSource.indexOf('else if (strcmp(path, "/join")', statusStart);
+  const statusHandler = statusStart >= 0 && statusEnd > statusStart
+    ? linuxSource.slice(statusStart, statusEnd)
+    : null;
 
   assert.ok(statusHandler, 'status handler should exist');
   assert.match(statusHandler, /songFinished/);
