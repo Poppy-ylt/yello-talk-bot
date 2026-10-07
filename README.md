@@ -8,6 +8,8 @@ The clean project contains empty-account setup, owner-authenticated room browsin
 
 See [the implementation plan](docs/music-only-plan.md) and [the setup guide](docs/clean-public-setup.md) for the target behavior and remaining work.
 
+For step-by-step Windows installation from a fresh clone, see the [Thai installation guide](docs/installation.th.md).
+
 ## Local development
 
 Use Node.js 20.9.0 or newer (the portal framework's declared engine requirement). From a fresh clone, install the lockfiles and start the API and portal in separate terminals:
