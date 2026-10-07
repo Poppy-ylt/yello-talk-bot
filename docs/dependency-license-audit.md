@@ -28,4 +28,4 @@ GME SDK files used for a local Windows compile are outside this staging tree. No
 
 - Review the exact dependency artifacts in any future installer/runtime bundle and add the corresponding upstream `LICENSE`/`NOTICE` files and attribution.
 - Recheck all three lockfiles after dependency updates; the Web adapter's locked dependencies have not been installed in this staging tree.
-- Confirm source ownership/attribution for the imported adapters and obtain GME SDK redistribution terms before public release.
+- Owner states rights to the included project source are theirs and requested no further source-rights audit (2026-10-07); no vendor GME SDK payload is included. Revisit SDK terms only if a future release adds that payload.
