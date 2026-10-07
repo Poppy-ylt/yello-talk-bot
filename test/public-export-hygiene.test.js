@@ -19,15 +19,25 @@ function listFiles(directory, relativeTo = directory) {
   return files;
 }
 
-test('adapter export contains no compiled payloads, SDK bundles, or dependency trees', () => {
+test('adapter export contains only allowlisted GME SDK payloads and no local build artifacts', () => {
   // Local build output is excluded by .gitignore and is not part of the export.
   const adapterFiles = listFiles(adaptersRoot).filter((file) => !/(^|\/)build\//i.test(file));
+  const allowedSdk = (file) =>
+    /^windows-native\/vendor-sdk\/(bin\/[^/]+\.dll|include\/[a-z0-9_.-]+\.h|lib\/gmesdk\.lib)$/i.test(file)
+      || /^linux-native\/vendor-sdk\/(include\/[a-z0-9_.-]+\.h|lib\/(\.patched|libgme[a-z0-9_-]+\.so)|stubs\/[a-z0-9_.-]+)$/i.test(file)
+      || /^redroid\/vendor-sdk\/android\/libs\/(gmesdk\.jar|(arm64-v8a|armeabi-v7a|x86|x86_64)\/libgme[a-z0-9_-]+\.so)$/i.test(file)
+      || /^web-h5\/sdk\/WebRTCService\.js$/i.test(file);
   const forbidden = adapterFiles.filter((file) =>
-    /(^|\/)(node_modules|sdk|vendor-sdk|build|gme-[^/]*-sdk)(\/|$)/i.test(file)
-      || /\.(exe|dll|lib|obj|pdb|so|dylib|a|apk|aar|jar|zip)$/i.test(file)
+    (/(^|\/)(sdk|vendor-sdk)(\/|$)/i.test(file) && !allowedSdk(file))
+      || (!allowedSdk(file) && /\.(exe|dll|lib|obj|pdb|so|dylib|a|apk|aar|jar|zip)$/i.test(file))
+      || /(^|\/)node_modules(\/|$)/i.test(file)
   );
 
   assert.deepEqual(forbidden, []);
+  assert.ok(adapterFiles.includes('windows-native/vendor-sdk/lib/gmesdk.lib'));
+  assert.ok(adapterFiles.includes('linux-native/vendor-sdk/lib/libgmesdk.so'));
+  assert.ok(adapterFiles.includes('redroid/vendor-sdk/android/libs/gmesdk.jar'));
+  assert.ok(adapterFiles.includes('web-h5/sdk/WebRTCService.js'));
 });
 
 test('ignore rules cover local dependencies, credentials, runtime state, and native binaries', () => {

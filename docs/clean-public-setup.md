@@ -1,5 +1,13 @@
 # คู่มือตั้งค่าโปรเจกต์คลีนสำหรับ Public Repository
 
+> SDK bundle update (2026-10-07): per the owner's explicit request, the public
+> repository now includes GME SDK assets for Windows/Linux, Android/Redroid,
+> and Web H5. See `bundled-gme-sdks.md` for versions and provenance. This
+> supersedes older status notes below that say SDK files are absent. The Windows
+> adapter builds from the bundled SDK; Linux/Web/Redroid builds and live audio
+> E2E remain unverified. Credentials, Android signing inputs, and generated
+> adapter executables remain local.
+
 ชื่อผลิตภัณฑ์: **Yello Music Bot** เว็บใช้ชื่อกลางนี้ ไม่มีภาพหรือชื่อบอทเดิมของผู้พัฒนา ชื่อเรียกบอทและ persona ตั้งภายหลังใน local config
 
 Status as of 2026-10-07: the clean export is published to `Poppy-ylt/yello-talk-bot` on `main` at initial commit `454b0a8`. The owner states rights to the included project source are theirs and requested no further rights review; this is an owner assertion, not independent verification. The Windows native adapter compiled locally and failed closed without credentials; Linux/Web/Redroid builds, future bundle notices, and live audio E2E remain unverified.

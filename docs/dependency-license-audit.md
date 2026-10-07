@@ -1,6 +1,6 @@
 # Dependency license and notice audit
 
-Status as of 2026-10-07. This is a package-metadata and notice-presence inventory, not legal advice or a redistribution clearance. The clean source export does not include `node_modules`, `.next`, downloaded SDKs, or compiled packages.
+Status as of 2026-10-07. This is a package-metadata and notice-presence inventory, not legal advice or a redistribution clearance. The clean export does not include `node_modules`, `.next`, or compiled adapter executables; selected GME SDK runtime assets are included as documented in `bundled-gme-sdks.md`.
 
 ## Lockfile inventory
 
@@ -20,12 +20,12 @@ The lockfiles contain the expected MIT, ISC, Apache-2.0, BSD, and 0BSD metadata,
 
 The source-only repository includes manifests and lockfiles, not these installed packages. Do not package `node_modules` or `.next` without a fresh per-platform notice and binary review.
 
-## GME SDK rights remain separate and unresolved
+## Bundled GME SDK assets
 
-GME SDK files used for a local Windows compile are outside this staging tree. No GME SDK or adapter SDK license/notice file was found in the reviewed source tree. Tencent's SDK download guide points to SDK integration/privacy/compliance materials but does not itself grant SDK redistribution rights. Tencent Cloud's general service agreement §7.1 describes IP ownership and the need for express permission; it is not a product-specific GME SDK redistribution license. Keep all GME SDK payloads out of public exports until the applicable product terms or written rights-holder permission are confirmed. [GME SDK download guide](https://cloud.tencent.com/document/product/607/18521), [Tencent Cloud Service Agreement §7.1](https://cloud.tencent.com/document/product/301/1967), [SPDX Python-2.0 entry](https://spdx.org/licenses/preview/Python-2.0.html)
+Selected GME SDK files for Windows/Linux, Android/Redroid, and Web H5 are now included under `adapters/`; versions and provenance are recorded in `bundled-gme-sdks.md`. The repository owner explicitly directed public inclusion and asserted distribution rights for this project. The downloaded Android and Web archives did not contain files named `LICENSE`, `NOTICE`, or `COPYING`; this note records the owner's instruction and the package contents, not an independent legal determination. The Tencent SDK guide points to separate SDK usage and compliance materials. [GME SDK download guide](https://cloud.tencent.com/document/product/607/18521)
 
 ## Remaining release checks
 
 - Review the exact dependency artifacts in any future installer/runtime bundle and add the corresponding upstream `LICENSE`/`NOTICE` files and attribution.
 - Recheck all three lockfiles after dependency updates; the Web adapter's locked dependencies have not been installed in this staging tree.
-- Owner states rights to the included project source are theirs and requested no further source-rights audit (2026-10-07); no vendor GME SDK payload is included. Revisit SDK terms only if a future release adds that payload.
+- Owner states the project source and the bundled SDK assets may be included in this public repository and requested no further rights review (2026-10-07). Do not infer that vendor SDK files are covered by the project's `ISC` metadata; consult the bundle inventory for versions and provenance.

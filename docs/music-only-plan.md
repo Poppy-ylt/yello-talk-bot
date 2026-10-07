@@ -1,9 +1,17 @@
 # Yello Music Bot — แผนฉบับสรุปและ checklist
 
 วันที่: 2026-10-07
-สถานะ: implementation เริ่มแล้วใน clean staging; ยังไม่พร้อมใช้งานหรือเผยแพร่
+สถานะ: clean staging เผยแพร่แล้ว; SDK bundle เพิ่มตามคำสั่งเจ้าของ แต่ยังไม่ผ่าน audio E2E
 
 ฉบับนี้แทนแผนสะสมคำถามเดิมทั้งหมด ใช้ข้อกำหนดด้านล่างเป็นขอบเขตปัจจุบัน คู่มือปลายทาง: [clean-public-setup.md](clean-public-setup.md)
+
+SDK bundle update (2026-10-07): at the owner's explicit request, versioned GME
+SDK assets for Windows/Linux, Android/Redroid, and Web H5 are now included under
+`adapters/`; see `bundled-gme-sdks.md`. The Windows adapter builds from the
+bundled SDK. Linux/Web/Redroid builds and all live room/audio E2E remain
+unverified. This update supersedes older checklist notes below that say SDK
+payloads are absent or must be kept out. No account credentials or signing keys
+were added.
 
 ## เป้าหมาย
 

@@ -51,3 +51,22 @@ adapters/**/gme-*-sdk/
 .vercel/
 .tmp-*/
 .tmp-*
+
+# The following vendor SDK payloads are intentionally bundled for the music adapters.
+!adapters/windows-native/vendor-sdk/
+!adapters/windows-native/vendor-sdk/**
+!adapters/linux-native/vendor-sdk/
+!adapters/linux-native/vendor-sdk/**
+!adapters/redroid/vendor-sdk/
+!adapters/redroid/vendor-sdk/**
+!adapters/web-h5/sdk/
+!adapters/web-h5/sdk/**
+
+# Generated Linux compatibility stubs/system-library links are rebuilt locally.
+adapters/linux-native/vendor-sdk/lib/libOpenSLES.so
+adapters/linux-native/vendor-sdk/lib/liblog.so
+adapters/linux-native/vendor-sdk/lib/libbionic_compat.so
+adapters/linux-native/vendor-sdk/lib/libc.so
+adapters/linux-native/vendor-sdk/lib/libm.so
+adapters/linux-native/vendor-sdk/lib/libdl.so
+adapters/linux-native/vendor-sdk/lib/libz.so

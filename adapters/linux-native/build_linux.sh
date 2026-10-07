@@ -3,6 +3,16 @@ set -euo pipefail
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$script_dir"
+sdk_dir="$script_dir/vendor-sdk"
+sdk_lib_dir="$sdk_dir/lib"
+
+if [[ ! -f "$sdk_lib_dir/libOpenSLES.so" ]]; then
+  if [[ ! -f "$sdk_lib_dir/libgmesdk.so" || ! -f "$sdk_dir/stubs/build_stubs.sh" ]]; then
+    echo "Bundled GME SDK files are missing under $sdk_dir" >&2
+    exit 1
+  fi
+  bash "$sdk_dir/stubs/build_stubs.sh"
+fi
 
 cxx="${CXX:-g++}"
 command -v "$cxx" >/dev/null 2>&1 || {
@@ -27,7 +37,8 @@ read -r -a curl_flags <<< "$(pkg-config --cflags --libs libcurl)"
 
 "$cxx" -std=c++17 -O2 -pthread -rdynamic \
   main_linux.cpp -o "$output" \
-  "${curl_flags[@]}" -ldl -lz -lm
+  "${curl_flags[@]}" -ldl -lz -lm \
+  -Wl,-rpath,'$ORIGIN/../vendor-sdk/lib'
 
 echo "Built $output"
-echo "Runtime GME SDK libraries must be installed separately and made available to the dynamic loader."
+echo "Bundled GME SDK runtime libraries: $sdk_lib_dir"
