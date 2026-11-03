@@ -15,13 +15,16 @@ function createRoomRouter({
   playback,
   ttsPlayback,
   gmeAdapter,
+  userDirectory,
 } = {}) {
   const router = express.Router();
+  const recordUsers = items => { try { userDirectory?.recordMany(items); } catch { /* best effort */ } };
 
   router.get('/api/rooms', ownerAuth, async (_req, res) => {
     if (!hasLocalAccount()) return res.status(409).json({ error: 'Configure a local YelloTalk account first' });
     try {
       const rooms = await api.listPublicRooms(getConfig().account.jwtToken);
+      recordUsers(rooms.map(room => ({ uuid: room.ownerUuid, name: room.ownerName })));
       return res.json({ rooms });
     } catch {
       return res.status(502).json({ error: 'Could not load the YelloTalk room list' });
@@ -44,6 +47,19 @@ function createRoomRouter({
       return res.status(502).json({ error: message });
     } finally {
       roomActionLock.pending = false;
+    }
+  });
+
+  router.get('/api/room/:roomId/participants', ownerAuth, async (req, res) => {
+    if (!hasLocalAccount()) return res.status(409).json({ error: 'Configure a local YelloTalk account first' });
+    const roomId = String(req.params.roomId || '').trim();
+    if (!/^[A-Za-z0-9]{1,64}$/.test(roomId)) return res.status(400).json({ error: 'A valid room ID is required' });
+    try {
+      const participants = await api.roomParticipants(getConfig().account.jwtToken, roomId, { max: 50 });
+      recordUsers(participants);
+      return res.json({ participants });
+    } catch {
+      return res.status(502).json({ error: 'Could not load room participants' });
     }
   });
 
@@ -71,6 +87,23 @@ function createRoomRouter({
       return res.status(502).json({ error: message });
     } finally {
       roomActionLock.pending = false;
+    }
+  });
+
+  router.get('/api/room/seats', ownerAuth, (_req, res) => {
+    const seats = typeof session.seatsSnapshot === 'function' ? session.seatsSnapshot() : null;
+    return res.json({ connected: Boolean(seats), ...(seats || {}) });
+  });
+
+  router.post('/api/room/seat', ownerAuth, async (req, res) => {
+    const action = String(req.body?.action || '');
+    if (!['take', 'leave', 'unlock', 'lock'].includes(action)) return res.status(400).json({ error: 'Seat action must be take, leave, unlock, or lock' });
+    if (session.snapshot().status !== 'joined') return res.status(409).json({ error: 'Join a room before changing seats' });
+    try {
+      const result = await session.seatAction(action, req.body?.position ?? 1);
+      return res.json({ ok: true, action, ...result });
+    } catch (error) {
+      return res.status(502).json({ error: String(error?.message || 'Seat action failed').slice(0, 200) });
     }
   });
 

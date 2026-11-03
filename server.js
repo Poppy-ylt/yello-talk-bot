@@ -29,6 +29,8 @@ const { createChatRouter } = require('./src/http/chat-router');
 const { createMusicRouter } = require('./src/http/music-router');
 const { createRoomRouter } = require('./src/http/room-router');
 const { createSettingsRouter } = require('./src/http/settings-router');
+const { createUsersRouter } = require('./src/http/users-router');
+const { UserDirectory } = require('./src/users/user-directory');
 
 function createApp({ configPath, tokenPath, logger = console, apiClient, roomSession, musicAdapter, musicPlayback, youtubeProvider, groqChatClient: injectedGroqChatClient, createSocket = io, recoveryDelaysMs } = {}) {
   const resolvedConfigPath = path.resolve(configPath || process.env.YMB_CONFIG_PATH || './config.local.json');
@@ -42,6 +44,9 @@ function createApp({ configPath, tokenPath, logger = console, apiClient, roomSes
   const ownerToken = ensureOwnerToken(resolvedTokenPath);
   const app = express();
   const ownerAuth = ownerTokenMiddleware(ownerToken);
+  const userDirectory = new UserDirectory({
+    filePath: path.join(path.dirname(resolvedConfigPath), 'secretId', 'users.json'),
+  });
   const yellotalkApi = apiClient || new YelloTalkApiClient({ http: axios });
   const gmeAdapter = musicAdapter || (config.adapter.token
     ? new GmeAdapterClient({ http: axios, baseUrl: config.adapter.baseUrl, token: config.adapter.token })
@@ -111,7 +116,17 @@ function createApp({ configPath, tokenPath, logger = console, apiClient, roomSes
       try { ttsPlayback?.handleMessage(data); } catch {}
       if (roomReplyService) void roomReplyService.handleMessage(data).catch(() => {});
     },
+    onSpeakerStatus: status => {
+      if (status?.joined) console.log(`[seat] bot took speaker position ${status.position}`);
+      else if (status?.joining) console.log(`[seat] requesting speaker position ${Number(status.position) + 1}`);
+      else console.log('[seat] bot is not on a speaker seat');
+    },
     onParticipantEvent: event => {
+      if (event?.type === 'join' || event?.type === 'leave') {
+        const verb = event.type === 'join' ? 'joined' : 'left';
+        console.log(`[room] ${event.displayName || event.uuid || 'someone'} ${verb} the room`);
+        if (event.uuid) userDirectory.record(event.uuid, event.displayName);
+      }
       if (participantGreetingService) void participantGreetingService.handleParticipantEvent(event).catch(() => {});
     },
     onManualLeave: async () => {
@@ -311,7 +326,9 @@ function createApp({ configPath, tokenPath, logger = console, apiClient, roomSes
     playback,
     ttsPlayback,
     gmeAdapter,
+    userDirectory,
   }));
+  app.use(createUsersRouter({ ownerAuth, userDirectory }));
   app.use(createChatRouter({ ownerAuth, session, roomChatService, ttsPlayback }));
   app.use(createMusicRouter({ ownerAuth, playback, getConfig: () => config, saveConfig }));
   app.use(createSettingsRouter({
